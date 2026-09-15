@@ -12,17 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM python:3.10.8-slim@sha256:49749648f4426b31b20fca55ad854caa55ff59dc604f2f76b57d814e0a47c181 as base
+FROM python:3.10-slim-bookworm as base
 
 FROM base as builder
 
-RUN apt-get -qq update \
+RUN apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends \
         wget g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # Download the grpc health probe
-# renovate: datasource=github-releases depName=grpc-ecosystem/grpc-health-probe
 ENV GRPC_HEALTH_PROBE_VERSION=v0.4.18
 RUN wget -qO/bin/grpc_health_probe https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 && \
     chmod +x /bin/grpc_health_probe
