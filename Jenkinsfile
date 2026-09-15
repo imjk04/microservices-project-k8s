@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'dockercred', toolName: 'docker') {
-                        sh "docker push imjk04/emailservice:latest"
+                        sh "docker push imjk04/emailservice:v1"
                     }
                 }
             }
